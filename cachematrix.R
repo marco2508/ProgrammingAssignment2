@@ -8,28 +8,33 @@ makeCacheMatrix <- function(x = matrix()) {
   #https://masterr.org/r/how-to-cache-a-matrix-inversion-in-r/  
   # change  1 2 3
   #         4 5 6
+  #         7 8 9
   # to
-  #         1 4
-  #         2 5
-  #         3 6
+  #         1 4 7
+  #         2 5 8
+  #         3 6 9
   # is this what we are talking about?
+  #no, this is totally not interesting :(
   
   ## @x: a square invertible matrix
   ## return: a list containing functions to
-  ##              1. set the matrix
-  ##              2. get the matrix
-  ##              3. set the inverse
-  ##              4. get the inverse
+  ##              1. set the matrix -> meaning assign the parameter
+  ##              2. get the matrix -> meaning getting the stored parameter
+  ##              3. set the inverse -> storing the parameter inversed
+  ##              4. get the inverse -> getting the inversed stored parameter
   ##         this list is used as the input to cacheSolve()
   m <- NULL
-  # Define function to set the value of the matrix. It also clears the old
-  # inverse from the cache
+  
+  # Define function to set the value of the matrix. 
+  # It also clears the old inverse from the cache
   set <- function(y) {
     x <<- y    # Set the value
     m <<- NULL # Clear the cache
   }
+  
   # Define function to get the value of the matrix
   get <- function() x
+  
   # Define function to set the inverse. This is only used by getinverse() when
   # there is no cached inverse
   setInverse <- function(inverse) m <<- inverse
@@ -37,11 +42,11 @@ makeCacheMatrix <- function(x = matrix()) {
   getInverse <- function() m
   
   # Return a list with the above four functions
+  # this is what i understand :)
   list(set = set, get = get,
        setInverse = setInverse,
        getInverse = getInverse)  
 }
-
 
 ## Write a short comment describing this function
 
@@ -51,7 +56,7 @@ cacheSolve <- function(x, ...) {
   ## @x: output of makeCacheMatrix()
   ## return: inverse of the original matrix input to makeCacheMatrix()
   
-  inv = x$getInverse() #check if the object is gettable
+  inv = x$getInverse() #check if the object is gettable 
   
   # if the inverse has already been calculated
   if (!is.null(inv)){
@@ -70,6 +75,7 @@ cacheSolve <- function(x, ...) {
   return(inv)  
 }
 
+#this is the description of the assignment copied from the website
 #Matrix inversion is usually a costly computation and there may be some 
 #benefit to caching the inverse of a matrix rather than compute it repeatedly 
 #(there are also alternatives to matrix inversion that we will not discuss here). Your assignment is to write a pair of functions that cache the inverse of a matrix.
@@ -83,7 +89,6 @@ cacheSolve <- function(x, ...) {
 
 #Computing the inverse of a square matrix can be done with the solve function in R. 
 #For example, if X is a square invertible matrix, then solve(X) returns its inverse.
-
 #For this assignment, assume that the matrix supplied is always invertible.
 
 inv_mat_test_frame = function(mat){
@@ -101,4 +106,3 @@ inv_mat_test_frame = function(mat){
   dur = Sys.time() - start.time
   print(dur)
 }
-
